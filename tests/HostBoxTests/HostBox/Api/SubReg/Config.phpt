@@ -3,8 +3,8 @@
 namespace HostBoxTests\Api\SubReg;
 
 use HostBox\Api\SubReg\Config;
-use Tester\Assert;
 use Tester;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 
@@ -17,7 +17,7 @@ class ConnectionTest extends Tester\TestCase {
     }
 
     public function testSandbox() {
-        $config = new  Config('test', '123456', FALSE);
+        $config = new Config('test', '123456', FALSE);
         Assert::equal(Config::DEFAULT_URL_SANDBOX, $config->getUrl());
     }
 

@@ -1,6 +1,6 @@
 {
     "name": "hostbox/api-subreg",
-    "description": "Api for SubReg.cz",
+    "description": "Enjoyable Api for SubReg.cz",
     "keywords": ["api", "subreg", "domains", "hostbox"],
     "license": "MIT",
     "authors": [

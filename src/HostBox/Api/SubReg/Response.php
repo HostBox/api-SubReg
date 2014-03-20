@@ -15,7 +15,7 @@ class Response {
     /** @param array $response */
     public function __construct(array $response) {
         $this->checkStatus($response);
-        $this->data = $response;
+        $this->response = $response;
     }
 
     /**
@@ -28,21 +28,33 @@ class Response {
             throw new RuntimeException('Response status is missing');
 
         if ($response['status'] == 'error') {
-            throw new LogicException('Response error: ' . $response['error']['errormsg']);
+            if (!array_key_exists('error', $response)) {
+                throw new RuntimeException('Response with error status has not error message');
+            }
+
+            $error = $response['error'];
+            $codes = implode(':', array_values($error['errorcode']));
+            throw new LogicException('Response error [' . $codes . ']: ' . $error['errormsg']);
         }
     }
 
     /** @return mixed */
     public function getData() {
-        return $this->response['data'];
+        return isset($this->response['data']) ? $this->response['data'] : NULL;
     }
 
     /**
      * @param string $key
+     * @throws Exceptions\LogicException
      * @return mixed|null
      */
     public function get($key) {
-        if (array_key_exists($key, $data = $this->getData())) {
+        $data = $this->getData();
+        if ($data === NULL) {
+            throw new LogicException('Response has not data section');
+        }
+
+        if (array_key_exists($key, $data)) {
             return $data[$key];
         }
 
